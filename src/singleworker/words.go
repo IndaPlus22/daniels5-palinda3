@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"unicode"
 )
 
 const DataFile = "loremipsum.txt"
@@ -15,7 +16,9 @@ func WordCount(text string) map[string]int {
 
 	for _, word := range strings.Fields(text) {
 		word = strings.ToLower(word)
-		word = strings.Trim(word, ".,")
+		word = strings.TrimFunc(word, func(r rune) bool { //Remove all the non letter characters form the word
+			return !unicode.IsLetter(r) //Handy dandy function
+		})
 		freqs[strings.ToLower(word)] += 1
 	}
 	return freqs
